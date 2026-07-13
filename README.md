@@ -89,8 +89,10 @@ Ambient plugins ship for **Claude Code** and **Codex** (both use the same hook e
 the same `hookSpecificOutput.additionalContext` injection field). **Gemini CLI** installs as
 an **extension** below — today it wires the MCP tools + `GEMINI.md` and the `SessionStart`
 arrival; its other lifecycle hooks (`BeforeTool`/`AfterTool`) are not yet wired, so treat
-Gemini ambient as *arrival-only* for now. **Cursor** is hook-capable (`sessionStart` +
-`additional_context`) but we don't ship a Cursor hook config yet — Cursor gets MCP + AGENTS.md.
+Gemini ambient as *arrival-only* for now. **Cursor** is ambient too — `threadkept init -cue
+cursor` prints its `.cursor/hooks.json` (Cursor needs a top-level `additional_context`, which
+`threadkept … -format cursor` emits). Its shell-guard hook uses a different Cursor schema and
+is not wired yet.
 
 > **Honesty note:** the plugins/extensions are built from each tool's documented contract but
 > have **not yet been installed and run in the real tool** — the arrival packet rendering
