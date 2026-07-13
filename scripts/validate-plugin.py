@@ -137,6 +137,20 @@ if os.path.exists(_setup):
     if "do not run" not in txt or "threadkept setup" not in txt:
         err("skills/setup/SKILL.md lost the double-wire warning ('Do NOT run threadkept setup' beside the plugin's hooks)")
 
+# --- discovery: the README install token must match the manifests. A drifted install
+# command is the exact defect that opened this sweep — a command that cannot work. For
+# each ecosystem, assert the README contains '<plugin>@<marketplace>'. ---
+if exists("README.md"):
+    readme = open(os.path.join(ROOT, "README.md")).read()
+    for mkt_file, plg_file in ((".claude-plugin/marketplace.json", ".claude-plugin/plugin.json"),
+                               (".agents/plugins/marketplace.json", ".codex-plugin/plugin.json")):
+        if exists(mkt_file) and exists(plg_file):
+            mkt = json.load(open(os.path.join(ROOT, mkt_file)))
+            plg = json.load(open(os.path.join(ROOT, plg_file)))
+            token = f"{plg.get('name')}@{mkt.get('name')}"
+            if token not in readme:
+                err(f"README is missing/mismatched the install token '{token}' for {mkt_file} — a drifted install command cannot work")
+
 if errors:
     print("PLUGIN VALIDATION FAILED:")
     for e in errors:
