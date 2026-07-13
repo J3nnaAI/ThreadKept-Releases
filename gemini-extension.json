@@ -1,0 +1,9 @@
+{
+  "name": "threadkept",
+  "version": "1.0.1",
+  "description": "Persistent mind for Gemini CLI — truth-maintained memory plus the autonomy to act on it (processes, triggers, extensions, rules). Local; nothing leaves your machine. Requires the threadkept binary on PATH (see the releases page) and a running daemon (threadkept setup).",
+  "contextFileName": "GEMINI.md",
+  "mcpServers": {
+    "threadkept": { "command": "threadkept", "args": ["mcp"] }
+  }
+}
