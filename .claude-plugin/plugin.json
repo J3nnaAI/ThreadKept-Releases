@@ -1,7 +1,7 @@
 {
   "name": "threadkept",
-  "description": "Private, local memory for AI agents that keeps what it knows true — it retracts stale beliefs instead of repeating them.",
-  "version": "0.1.0",
+  "description": "One persistent mind for every AI agent you use — knowledge that stays true (facts with evidence, corrected not repeated) plus the autonomy to act on it: background processes, event triggers, scoped extensions, deterministic scripts, rules that bind, reasoning trails, goals. Local, journaled, yours across every session and model.",
+  "version": "1.0.0",
   "author": { "name": "J3nnaAI" },
   "homepage": "https://github.com/J3nnaAI/ThreadKept-Releases"
 }
