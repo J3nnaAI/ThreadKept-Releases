@@ -1,0 +1,11 @@
+name: validate-plugins
+on:
+  push:
+  pull_request:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: validate plugin/extension manifests
+        run: python3 scripts/validate-plugin.py

@@ -1,0 +1,11 @@
+{
+  "name": "threadkept-releases",
+  "owner": { "name": "J3nnaAI" },
+  "plugins": [
+    {
+      "name": "threadkept",
+      "source": "./",
+      "description": "The cognition layer for AI agents — persistent, truth-maintained memory plus the autonomy to act on it (processes, triggers, extensions, rules)."
+    }
+  ]
+}

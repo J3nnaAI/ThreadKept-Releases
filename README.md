@@ -94,7 +94,8 @@ not yet run in-tool — treat as the Windows-beta of ambient until confirmed on 
 ### Ambient — Claude Code
 
 ```
-/plugin install J3nnaAI/ThreadKept-Releases
+/plugin marketplace add J3nnaAI/ThreadKept-Releases
+/plugin install threadkept@threadkept-releases
 /threadkept:setup          # installs the binary, starts the daemon
 ```
 
