@@ -125,6 +125,18 @@ for rel, allowed in [("hooks/hooks.json", CLAUDE_EVENTS), ("hooks/codex-hooks.js
                 if not cmd.startswith("threadkept "):
                     err(f"{rel}: hook command should invoke 'threadkept <verb>': {cmd!r}")
 
+# --- skills: /threadkept:setup and :status must exist, and setup must NOT instruct
+# 'threadkept setup' — that writes a SECOND hookset beside the plugin's own, and they
+# double-fire (a real, load-bearing trap). Guard the double-wire warning stays present.
+for sk in ("skills/setup/SKILL.md", "skills/status/SKILL.md"):
+    if not exists(sk):
+        err(f"missing skill {sk} — the plugin's /threadkept command would not exist")
+_setup = os.path.join(ROOT, "skills/setup/SKILL.md")
+if os.path.exists(_setup):
+    txt = open(_setup).read().lower()
+    if "do not run" not in txt or "threadkept setup" not in txt:
+        err("skills/setup/SKILL.md lost the double-wire warning ('Do NOT run threadkept setup' beside the plugin's hooks)")
+
 if errors:
     print("PLUGIN VALIDATION FAILED:")
     for e in errors:
