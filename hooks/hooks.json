@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "SessionStart":     [ { "hooks": [ { "type": "command", "command": "threadkept arrive" } ] } ],
+    "PreCompact":       [ { "hooks": [ { "type": "command", "command": "threadkept arrive" } ] } ],
+    "UserPromptSubmit": [ { "hooks": [ { "type": "command", "command": "threadkept pulse -hook" } ] } ],
+    "PostToolUse":      [ { "matcher": "Read|Grep|Glob|Edit|Write|Bash", "hooks": [ { "type": "command", "command": "threadkept pulse -hook" } ] } ],
+    "PreToolUse":       [ { "matcher": "Bash", "hooks": [ { "type": "command", "command": "threadkept guard-eval -hook" } ] } ],
+    "Stop":             [ { "hooks": [ { "type": "command", "command": "threadkept pulse -hook" } ] } ]
+  }
+}

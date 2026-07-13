@@ -1,0 +1,7 @@
+{
+  "name": "threadkept",
+  "description": "Private, local memory for AI agents that keeps what it knows true — it retracts stale beliefs instead of repeating them.",
+  "version": "0.1.0",
+  "author": { "name": "J3nnaAI" },
+  "homepage": "https://github.com/J3nnaAI/ThreadKept-Releases"
+}

@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "threadkept": { "command": "threadkept", "args": ["mcp"] }
+  }
+}
