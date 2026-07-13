@@ -94,6 +94,18 @@ if gem is not None:
         err(f"gemini-extension.json: contextFileName '{cf}' does not exist")
     if "mcpServers" not in gem:
         err("gemini-extension.json: no mcpServers (the tools would be absent)")
+    # GEMINI.md is Gemini's resident protocol — the THIRD instruction door alongside the
+    # hydrate arrival packet (hooked tools) and AGENTS.md (universal). All three must carry
+    # the same disciplines or a Gemini agent gets a weaker protocol than a Claude Code one.
+    # (agentsMD is guarded by TestAgentsMDCarriesTheResidentDisciplines; the packet by
+    # policy_test.go; this is GEMINI.md's guard, so the three cannot drift apart.)
+    cf = gem.get("contextFileName", "GEMINI.md")
+    if exists(cf):
+        with open(os.path.join(ROOT, cf)) as f:
+            g = f.read().lower()
+        for disc in ("hydrate", "recall", "grounds", "supersede"):
+            if disc not in g:
+                err(f"{cf} is missing the resident discipline '{disc}' (the instruction doors must not drift)")
 
 # --- every hooks file: valid JSON, portable commands, right events for its tool ---
 CLAUDE_EVENTS = {"SessionStart", "PreCompact", "UserPromptSubmit", "PostToolUse", "PreToolUse", "Stop"}
