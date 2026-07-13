@@ -79,18 +79,32 @@ server over stdio, so it drops into **any MCP-capable agent** — Claude Code, C
 GitHub Copilot (VS Code), Codex, Claude Desktop, Google's Gemini CLI & Antigravity,
 Windsurf, Cline, Continue, Zed, and whatever ships next.
 
-**One difference worth knowing.** In **Claude Code**, the mind is *ambient* — a plugin
-wires hooks that inject your standing memory at session start and record as you work,
-with nothing to remember. In every other client, it's *on tap* — the same store, the
-same faculties, surfaced as tools the agent calls. Fully functional everywhere;
-automatic in Claude Code.
+**Two ways to run it: ambient or on-tap.** *Ambient* means the mind arrives on its own —
+lifecycle hooks inject your standing memory at session start and record as you work, with
+nothing to remember. *On-tap* means the same store and faculties are there as tools the
+agent calls. Ambient needs a client with **injectable lifecycle hooks**; every client with
+MCP gets the tools. Fully functional everywhere; automatic where hooks exist.
 
-### Claude Code — the ambient experience
+Ambient is available today in **Claude Code** and **Codex** (both ship a plugin below), and
+**Cursor** and **Gemini CLI** have the same hook capability (`SessionStart` + context
+injection) — wire them with `threadkept init -cue cursor|gemini`. *(The Codex/Cursor/Gemini
+hook wiring is built from each tool's documented hook contract; verified against their docs,
+not yet run in-tool — treat as the Windows-beta of ambient until confirmed on your machine.)*
+
+### Ambient — Claude Code
 
 ```
 /plugin install J3nnaAI/ThreadKept-Releases
 /threadkept:setup          # installs the binary, starts the daemon
 ```
+
+### Ambient — Codex
+
+Codex uses the same lifecycle hooks and the same context-injection field as Claude Code, so
+the same repo ships a Codex plugin (`.codex-plugin/` + `hooks/codex-hooks.json`). Install it
+the way Codex installs plugins from a repo, then run `threadkept setup` once to install the
+binary and start the daemon. (Codex reads its MCP config from `~/.codex/config.toml` — see
+the Codex row below.)
 
 - `/threadkept:setup` — install the binary + start the daemon (run once)
 - `/threadkept:status` — is the mind healthy? what does it hold?

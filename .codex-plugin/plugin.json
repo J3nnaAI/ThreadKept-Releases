@@ -1,0 +1,6 @@
+{
+  "name": "threadkept",
+  "description": "Persistent mind for Codex — knowledge that stays true plus the autonomy to act on it. The same store and faculties as the Claude Code plugin; ambient in Codex via lifecycle hooks (SessionStart injects your standing memory; tool/stop hooks record as you work).",
+  "version": "1.0.0",
+  "hooks": "./hooks/codex-hooks.json"
+}
