@@ -67,6 +67,24 @@ if codex is not None:
     h = codex.get("hooks")
     if isinstance(h, str) and not exists(h.lstrip("./")):
         err(f".codex-plugin: hooks -> {h} does not exist")
+    # THE LAW (enumerated across ecosystems): a repo-root plugin is installable ONLY via
+    # its ecosystem's MARKETPLACE manifest. Claude Code -> .claude-plugin/marketplace.json;
+    # Codex -> .agents/plugins/marketplace.json. Iteration 1 fixed Claude Code; the class
+    # was 'every shipping ecosystem's marketplace manifest', and Codex was the next member.
+    cmkt = load(".agents/plugins/marketplace.json")  # load() errs "MISSING file" if absent
+    if cmkt is not None:
+        if not cmkt.get("name"):
+            err(".agents/plugins/marketplace.json: missing 'name'")
+        cplugins = cmkt.get("plugins") or []
+        if not cplugins:
+            err(".agents/plugins/marketplace.json: 'plugins' is empty — the Codex plugin is not installable")
+        for p in cplugins:
+            src = p.get("source") if isinstance(p.get("source"), dict) else {}
+            path = src.get("path")
+            if not p.get("name") or not path:
+                err(f".agents/plugins/marketplace.json: plugin entry needs name + source.path: {p}")
+            elif path in ("./", ".") and not exists(".codex-plugin/plugin.json"):
+                err(".agents marketplace points a plugin at './' but .codex-plugin/plugin.json is missing")
 
 # --- Gemini: extension manifest + its context file ---
 gem = load("gemini-extension.json")

@@ -85,11 +85,17 @@ nothing to remember. *On-tap* means the same store and faculties are there as to
 agent calls. Ambient needs a client with **injectable lifecycle hooks**; every client with
 MCP gets the tools. Fully functional everywhere; automatic where hooks exist.
 
-Ambient is available today in **Claude Code** and **Codex** (both ship a plugin below), and
-**Cursor** and **Gemini CLI** have the same hook capability (`SessionStart` + context
-injection) — wire them with `threadkept init -cue cursor|gemini`. *(The Codex/Cursor/Gemini
-hook wiring is built from each tool's documented hook contract; verified against their docs,
-not yet run in-tool — treat as the Windows-beta of ambient until confirmed on your machine.)*
+Ambient plugins ship for **Claude Code** and **Codex** (both use the same hook events and
+the same `hookSpecificOutput.additionalContext` injection field). **Gemini CLI** installs as
+an **extension** below — today it wires the MCP tools + `GEMINI.md` and the `SessionStart`
+arrival; its other lifecycle hooks (`BeforeTool`/`AfterTool`) are not yet wired, so treat
+Gemini ambient as *arrival-only* for now. **Cursor** is hook-capable (`sessionStart` +
+`additional_context`) but we don't ship a Cursor hook config yet — Cursor gets MCP + AGENTS.md.
+
+> **Honesty note:** the plugins/extensions are built from each tool's documented contract but
+> have **not yet been installed and run in the real tool** — the arrival packet rendering
+> in-tool is on the operator verification list, exactly like the Windows-beta binary. Nothing
+> here is claimed "works in tool X" until it's walked end to end.
 
 ### Ambient — Claude Code
 
@@ -101,11 +107,17 @@ not yet run in-tool — treat as the Windows-beta of ambient until confirmed on 
 
 ### Ambient — Codex
 
-Codex uses the same lifecycle hooks and the same context-injection field as Claude Code, so
-the same repo ships a Codex plugin (`.codex-plugin/` + `hooks/codex-hooks.json`). Install it
-the way Codex installs plugins from a repo, then run `threadkept setup` once to install the
-binary and start the daemon. (Codex reads its MCP config from `~/.codex/config.toml` — see
-the Codex row below.)
+Codex uses the same lifecycle hooks and the same `hookSpecificOutput.additionalContext`
+injection field as Claude Code, so this repo ships a Codex plugin (`.codex-plugin/` +
+`hooks/codex-hooks.json`, registered by `.agents/plugins/marketplace.json`):
+
+```
+codex plugin marketplace add J3nnaAI/ThreadKept-Releases
+codex plugin install threadkept@threadkept-releases
+```
+
+Then run `threadkept setup` once (installs the binary, starts the daemon). Codex reads its
+MCP config from `~/.codex/config.toml` — `threadkept init -cue codex` prints it.
 
 - `/threadkept:setup` — install the binary + start the daemon (run once)
 - `/threadkept:status` — is the mind healthy? what does it hold?
