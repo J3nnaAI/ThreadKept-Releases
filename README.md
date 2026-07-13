@@ -90,9 +90,11 @@ the same `hookSpecificOutput.additionalContext` injection field). **Gemini CLI**
 an **extension** below — today it wires the MCP tools + `GEMINI.md` and the `SessionStart`
 arrival; its other lifecycle hooks (`BeforeTool`/`AfterTool`) are not yet wired, so treat
 Gemini ambient as *arrival-only* for now. **Cursor** is ambient too — `threadkept init -cue
-cursor` prints its `.cursor/hooks.json` (Cursor needs a top-level `additional_context`, which
-`threadkept … -format cursor` emits). Its shell-guard hook uses a different Cursor schema and
-is not wired yet.
+cursor` prints its `.cursor/hooks.json` wiring session-start arrival, prompt/tool recall,
+**and the shell-guard** (`beforeShellExecution`). Cursor's schema differs from Claude Code's
+on both ends (top-level `command` in, `{permission, agent_message}` out); `threadkept …
+-format cursor` handles both — deny on a red gate, warn-without-blocking to interpose past
+mistakes.
 
 > **Honesty note:** the plugins/extensions are built from each tool's documented contract but
 > have **not yet been installed and run in the real tool** — the arrival packet rendering
